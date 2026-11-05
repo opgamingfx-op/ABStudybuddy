@@ -1,0 +1,911 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Buddy</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f6fa;
+  color:#252525;
+}
+
+/* WELCOME ANIMATION */
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:linear-gradient(145deg,#111827,#202c48,#713b16);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  color:white;
+  overflow:hidden;
+}
+
+.intro-content{
+  width:100%;
+  max-width:380px;
+}
+
+.intro-icon{
+  font-size:65px;
+  animation:bounce 1.5s infinite;
+}
+
+.intro-title{
+  font-size:30px;
+  font-weight:900;
+  margin-top:20px;
+  opacity:0;
+  animation:fadeUp 1s forwards;
+}
+
+.intro-title span{
+  color:#ff9800;
+}
+
+.intro-subtitle{
+  margin-top:12px;
+  color:#ddd;
+  font-size:14px;
+  opacity:0;
+  animation:fadeUp 1s 1s forwards;
+}
+
+.created{
+  margin-top:45px;
+  font-size:13px;
+  letter-spacing:2px;
+  color:#ffbd70;
+  opacity:0;
+  animation:fadeUp 1s 2s forwards;
+}
+
+.creator-name{
+  background:#ffffff16;
+  border:1px solid #ffffff35;
+  border-radius:16px;
+  padding:15px;
+  margin-top:13px;
+  font-size:21px;
+  font-weight:bold;
+  opacity:0;
+  transform:translateY(25px);
+  animation:fadeUp 1s 2.7s forwards;
+}
+
+.creator-name.second{
+  animation-delay:3.4s;
+}
+
+.creator-name small{
+  display:block;
+  color:#ffc078;
+  font-size:11px;
+  margin-top:6px;
+  font-weight:normal;
+}
+
+.start-btn{
+  margin-top:30px;
+  padding:15px 35px;
+  background:#ff8500;
+  border:0;
+  border-radius:30px;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  opacity:0;
+  animation:fadeUp 1s 4.2s forwards;
+  box-shadow:0 5px 25px #ff850077;
+}
+
+.start-btn:active{
+  transform:scale(.95);
+}
+
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+/* MAIN WEBSITE */
+
+#mainApp{
+  display:none;
+}
+
+header{
+  background:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:7px;
+  box-shadow:0 2px 10px #00000008;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.logo span{
+  color:#ff7900;
+}
+
+.header-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.about-btn,.pro{
+  background:#fff0d9;
+  color:#e87500;
+  padding:9px 10px;
+  border-radius:20px;
+  font-weight:bold;
+  border:0;
+  font-size:12px;
+}
+
+.container{
+  max-width:550px;
+  margin:auto;
+  padding:18px 15px 100px;
+}
+
+.welcome{
+  background:linear-gradient(120deg,#fff0df,#ffffff);
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:18px;
+}
+
+.welcome h2{
+  font-size:22px;
+  margin-bottom:8px;
+}
+
+.welcome p{
+  color:#777;
+  font-size:14px;
+}
+
+.robot{
+  font-size:35px;
+  float:right;
+}
+
+.card{
+  background:white;
+  padding:17px;
+  border-radius:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 15px #00000009;
+}
+
+h3{
+  font-size:17px;
+  margin-bottom:14px;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  font-size:14px;
+  margin:14px 0 8px;
+}
+
+input,select,textarea{
+  width:100%;
+  border:1px solid #e5e5e5;
+  background:#fafafa;
+  border-radius:12px;
+  padding:13px;
+  font-size:15px;
+  outline:none;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:#ff8500;
+}
+
+.upload{
+  border:2px dashed #ffb66b;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  background:#fff9f2;
+  margin-top:10px;
+}
+
+.camera{
+  font-size:40px;
+  margin-bottom:8px;
+}
+
+.upload p{
+  font-size:13px;
+  color:#888;
+  margin-bottom:12px;
+}
+
+.orange-btn{
+  background:#ff7900;
+  color:white;
+  border:none;
+  padding:14px;
+  width:100%;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:14px;
+}
+
+.secondary-btn{
+  background:#222;
+  color:white;
+  border:none;
+  padding:13px;
+  width:100%;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+#preview{
+  display:none;
+  max-width:100%;
+  max-height:220px;
+  border-radius:12px;
+  margin:12px auto;
+}
+
+#answerBox{
+  display:none;
+}
+
+#answer{
+  white-space:pre-wrap;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.copy-btn{
+  background:#222;
+  color:white;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  margin-top:15px;
+  width:100%;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  padding:12px 5px;
+  box-shadow:0 -3px 15px #00000012;
+  z-index:10;
+}
+
+.nav-item{
+  border:0;
+  background:white;
+  color:#888;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+
+.nav-item span{
+  font-size:22px;
+}
+
+.nav-item.active{
+  color:#ff7900;
+  font-weight:bold;
+}
+
+.ai-nav{
+  background:#ff7900;
+  color:white;
+  border-radius:50%;
+  width:48px;
+  height:48px;
+  justify-content:center;
+  margin-top:-22px;
+}
+
+.small{
+  color:#999;
+  font-size:12px;
+  text-align:center;
+  margin-top:20px;
+}
+
+/* ABOUT POPUP */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#00000080;
+  z-index:100;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.modal-content{
+  background:white;
+  width:100%;
+  max-width:350px;
+  border-radius:20px;
+  padding:25px;
+  text-align:center;
+}
+
+.modal-content h2{
+  color:#ff7900;
+  margin-bottom:10px;
+}
+
+.creator{
+  background:#fff6ed;
+  padding:14px;
+  border-radius:13px;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+.creator small{
+  display:block;
+  color:#888;
+  margin-top:5px;
+  font-weight:normal;
+}
+
+.close-btn{
+  background:#ff7900;
+  color:white;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  width:100%;
+  margin-top:18px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME SCREEN -->
+
+<div id="intro">
+
+  <div class="intro-content">
+
+    <div class="intro-icon">🎓</div>
+
+    <div class="intro-title">
+      WELCOME TO<br>
+      <span>STUDY BUDDY</span>
+    </div>
+
+    <div class="intro-subtitle">
+      Your Smart AI Study Partner 🤖
+    </div>
+
+    <div class="created">
+      CREATED WITH ❤️ BY
+    </div>
+
+    <div class="creator-name">
+      👑 Bharat Gupta
+      <small>CO-CREATOR</small>
+    </div>
+
+    <div class="creator-name second">
+      👑 Aryan Sunwal
+      <small>CO-CREATOR</small>
+    </div>
+
+    <button class="start-btn" onclick="startApp()">
+      LET'S START 🚀
+    </button>
+
+  </div>
+
+</div>
+
+<!-- MAIN APP -->
+
+<div id="mainApp">
+
+<header>
+  <div class="logo">🎓 <span>Study</span> Buddy</div>
+
+  <div class="header-buttons">
+    <button class="about-btn" onclick="showAbout()">
+      👨‍💻 About Us
+    </button>
+
+    <button class="pro" onclick="alert('Premium coming soon!')">
+      👑 Premium
+    </button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="welcome">
+    <div class="robot">🤖</div>
+    <h2>Welcome to Study Buddy</h2>
+    <p>Your AI study partner. Ask questions and learn anything!</p>
+  </div>
+
+  <div class="card">
+
+    <h3>📸 Your Question</h3>
+
+    <label>Upload Question Photo</label>
+
+    <div class="upload">
+      <div class="camera">📷</div>
+      <p>Take a photo or choose a picture of your question</p>
+
+      <input
+        type="file"
+        id="photo"
+        accept="image/*"
+        capture="environment"
+        onchange="showPhoto()"
+      >
+
+      <img id="preview">
+
+    </div>
+
+    <label>Write Your Question</label>
+
+    <textarea
+      id="question"
+      placeholder="Type your homework question here..."
+    ></textarea>
+
+    <label>📚 Select Subject</label>
+
+    <select id="subject">
+      <option>Mathematics</option>
+      <option>Science</option>
+      <option>English</option>
+      <option>Physics</option>
+      <option>Chemistry</option>
+      <option>Biology</option>
+      <option>History</option>
+      <option>Geography</option>
+      <option>Computer</option>
+      <option>General Knowledge</option>
+      <option>Other</option>
+    </select>
+
+    <label>🎓 Select Class</label>
+
+    <select id="grade">
+      <option>Class 5</option>
+      <option>Class 6</option>
+      <option>Class 7</option>
+      <option>Class 8</option>
+      <option>Class 9</option>
+      <option>Class 10</option>
+      <option>Class 11</option>
+      <option>Class 12</option>
+      <option>College</option>
+    </select>
+
+    <label>🌍 Answer Language</label>
+
+    <select id="language">
+      <option>Hindi</option>
+      <option>English</option>
+      <option>Simple Hindi</option>
+    </select>
+
+    <label>📝 Additional Notes</label>
+
+    <textarea
+      id="notes"
+      placeholder="Any additional instructions..."
+    ></textarea>
+
+    <button class="orange-btn" onclick="askAI('short')" id="askBtn">
+      ✨ Quick Answer
+    </button>
+
+    <button class="secondary-btn" onclick="askAI('explain')" id="explainBtn">
+      📖 Explain Answer
+    </button>
+
+  </div>
+
+  <div class="card" id="answerBox">
+    <h3>🤖 Your AI Answer</h3>
+
+    <div id="answer">Your answer will appear here.</div>
+
+    <button class="copy-btn" onclick="copyAnswer()">
+      📋 Copy Answer
+    </button>
+  </div>
+
+  <p class="small">Study Buddy © 2026</p>
+
+</div>
+
+<nav class="bottom-nav">
+
+  <button class="nav-item active" onclick="goHome(this)">
+    <span>🏠</span>Home
+  </button>
+
+  <button class="nav-item" onclick="goSearch(this)">
+    <span>🔍</span>Search
+  </button>
+
+  <button class="nav-item ai-nav" onclick="goAI()">
+    ✨
+  </button>
+
+  <button class="nav-item" onclick="showHistory(this)">
+    <span>📚</span>History
+  </button>
+
+  <button class="nav-item" onclick="showProfile(this)">
+    <span>👤</span>Profile
+  </button>
+
+</nav>
+
+</div>
+
+<!-- ABOUT POPUP -->
+
+<div class="modal" id="aboutModal" onclick="closeAboutOutside(event)">
+
+  <div class="modal-content">
+
+    <h2>🎓 Study Buddy</h2>
+
+    <p>Created with ❤️ and hard work</p>
+
+    <h3 style="margin-top:20px;">Website Creators</h3>
+
+    <div class="creator">
+      Bharat Gupta
+      <small>Co-Creator</small>
+    </div>
+
+    <div class="creator">
+      Aryan Sunwal
+      <small>Co-Creator</small>
+    </div>
+
+    <button class="close-btn" onclick="closeAbout()">
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+// CLOUDFLARE WORKER
+
+const WORKER_URL =
+"https://study-buddy-new.ashashafe76.workers.dev";
+
+// START WEBSITE
+
+function startApp(){
+
+  document.getElementById("intro").style.display = "none";
+
+  document.getElementById("mainApp").style.display = "block";
+
+}
+
+// PHOTO PREVIEW
+
+function showPhoto(){
+
+  const file = document.getElementById("photo").files[0];
+  const preview = document.getElementById("preview");
+
+  if(file){
+
+    if(!file.type.startsWith("image/")){
+      alert("Please select an image.");
+      return;
+    }
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+
+  }
+
+}
+
+// ASK AI
+
+async function askAI(mode){
+
+  const question =
+    document.getElementById("question").value.trim();
+
+  const subject =
+    document.getElementById("subject").value;
+
+  const grade =
+    document.getElementById("grade").value;
+
+  const language =
+    document.getElementById("language").value;
+
+  const notes =
+    document.getElementById("notes").value.trim();
+
+  const askBtn = document.getElementById("askBtn");
+  const explainBtn = document.getElementById("explainBtn");
+
+  const box = document.getElementById("answerBox");
+  const answer = document.getElementById("answer");
+
+  if(!question){
+    alert("Please write your question first!");
+    return;
+  }
+
+  askBtn.disabled = true;
+  explainBtn.disabled = true;
+
+  askBtn.innerText = "⏳ AI Thinking...";
+
+  box.style.display = "block";
+  answer.innerText = "Study Buddy AI is thinking...";
+
+  const fullMessage =
+    "Answer in " + language +
+    ". Subject: " + subject +
+    ". Student class: " + grade +
+    ". Student question: " + question +
+    (notes ? ". Additional instructions: " + notes : "");
+
+  try{
+
+    const response = await fetch(WORKER_URL,{
+
+      method:"POST",
+
+      headers:{
+        "Content-Type":"application/json"
+      },
+
+      body:JSON.stringify({
+        message:fullMessage,
+        mode:mode
+      })
+
+    });
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(data.error || "AI server error");
+    }
+
+    const reply =
+      data.reply || data.answer || "No answer received.";
+
+    answer.innerText = reply;
+
+    let history = JSON.parse(
+      localStorage.getItem("homeworkHistory") || "[]"
+    );
+
+    history.unshift({
+      question:question,
+      answer:reply,
+      subject:subject,
+      date:new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      "homeworkHistory",
+      JSON.stringify(history.slice(0,30))
+    );
+
+  }catch(error){
+
+    answer.innerText =
+      "AI Connection Error: " + error.message;
+
+  }
+
+  askBtn.disabled = false;
+  explainBtn.disabled = false;
+
+  askBtn.innerText = "✨ Quick Answer";
+  explainBtn.innerText = "📖 Explain Answer";
+
+}
+
+// COPY ANSWER
+
+function copyAnswer(){
+
+  const text = document.getElementById("answer").innerText;
+
+  if(navigator.clipboard && navigator.clipboard.writeText){
+
+    navigator.clipboard.writeText(text)
+    .then(()=>alert("Answer Copied!"))
+    .catch(()=>alert("Copy not available."));
+
+  }else{
+
+    alert("Copy not available in this preview.");
+
+  }
+
+}
+
+// ABOUT US
+
+function showAbout(){
+
+  document.getElementById("aboutModal").style.display = "flex";
+
+}
+
+function closeAbout(){
+
+  document.getElementById("aboutModal").style.display = "none";
+
+}
+
+function closeAboutOutside(event){
+
+  if(event.target.id === "aboutModal"){
+    closeAbout();
+  }
+
+}
+
+// NAVIGATION
+
+function goHome(btn){
+
+  document.querySelector(".container").scrollIntoView({
+    behavior:"smooth"
+  });
+
+  setActive(btn);
+
+}
+
+function goSearch(btn){
+
+  document.getElementById("question").focus();
+
+  setActive(btn);
+
+}
+
+function goAI(){
+
+  document.getElementById("question").focus();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+// HISTORY
+
+function showHistory(btn){
+
+  setActive(btn);
+
+  const history = JSON.parse(
+    localStorage.getItem("homeworkHistory") || "[]"
+  );
+
+  if(history.length === 0){
+    alert("No homework history yet!");
+    return;
+  }
+
+  const list = history.map((item,i)=>
+    (i+1)+". "+item.question+
+    "\n\nAnswer: "+item.answer
+  ).join("\n\n----------------\n\n");
+
+  alert(list);
+
+}
+
+// PROFILE
+
+function showProfile(btn){
+
+  setActive(btn);
+
+  alert(
+    "Welcome to Study Buddy!\n\n" +
+    "Created by Bharat Gupta and Aryan Sunwal."
+  );
+
+}
+
+// ACTIVE NAVIGATION
+
+function setActive(btn){
+
+  document.querySelectorAll(".nav-item").forEach(item=>{
+    item.classList.remove("active");
+  });
+
+  btn.classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>
